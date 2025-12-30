@@ -5,39 +5,30 @@ data: dw 30, 40, 50, 10, 70
 swap: db 0
 
 main:
-
     ;intialize
-    mov si , 0
-    mov bx , data     ;moving array address into bx reg
-    mov cx , 8        ;setting our counter    
-
-    outerloop:
-    mov si , 0
     mov byte [swap] , 0
-    dec cx
-    jz exit
+    mov bx , 0
 
-  
-    inner_loop:
-    ;checking
-    
-    mov  ax,[bx+si]
-    cmp  ax,[bx+si+2] 
+    comparison:
+    mov ax , [data + bx]
+    cmp ax , [data + bx + 2]
     jbe no_swap
-    
-    ;swapping take place
-    xchg ax , [bx+si+2] 
+
+    ; swapping:
+    mov dx,[data + bx + 2]
+    mov [data+bx],dx
+    mov [data + bx + 2],ax
     mov byte [swap] , 1
-    
 
     no_swap:
-    add si , 2
+    add bx , 2
+    cmp bx , 8
+    jnz comparison
+
     cmp byte[swap] , 1
-    je outerloop
+    je main
 
-
-    ;exit
-    exit:
+exit:
 
 MOV AX , 0x4c00
 INT 0x21
