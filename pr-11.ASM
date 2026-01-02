@@ -1,7 +1,0 @@
-[ORG 0x0100]
-
-
-
-;Exit
-mov ax , 0x4c00
-int 0x21
